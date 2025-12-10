@@ -23,19 +23,20 @@
             <div id="unity-build-title">AnaGMendez</div>
         </div>
     </div>
+
     <script>var canvas = document.querySelector("#unity-canvas");
 
         function unityShowBanner(msg, type) {
             var warningBanner = document.querySelector("#unity-warning");
             function updateBannerVisibility() {
-                warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+                warningBanner.style.display = warningBanner.children.length ? "block" : "none";
             }
-            var div = document.createElement('div');
+            var div = document.createElement("div");
             div.innerHTML = msg;
             warningBanner.appendChild(div);
-            if (type == 'error') div.style = 'background: red; padding: 10px;';
+            if (type == "error") div.style = "background: red; padding: 10px;";
             else {
-                if (type == 'warning') div.style = 'background: yellow; padding: 10px;';
+                if (type == "warning") div.style = "background: yellow; padding: 10px;";
                 setTimeout(function () {
                     warningBanner.removeChild(div);
                     updateBannerVisibility();
@@ -49,23 +50,29 @@
 
         var config = {
             arguments: [],
-            // ✅ Carga el .data desde GitHub Release:
+
+            // ✅ .data desde Release (la que lo contiene)
             dataUrl: "https://github.com/IrraCalma/AGM/releases/download/v0.1/AGM.data",
-            // ✅ Todo lo demás sigue desde el repo:
+
+            // ✅ framework desde el repo
             frameworkUrl: buildUrl + "/AGM.framework.js",
-            codeUrl: buildUrl + "/AGM.wasm",
+
+            // ✅ .wasm desde tu nueva Release v0.2
+            codeUrl: "https://github.com/IrraCalma/AGM/releases/download/v0.2/AGM.wasm",
+
             streamingAssetsUrl: "StreamingAssets",
             companyName: "DefaultCompany",
             productName: "AnaGMendez",
-            productVersion: "0.1",
+            productVersion: "0.2",
             showBanner: unityShowBanner,
         };
 
         if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-            var meta = document.createElement('meta');
-            meta.name = 'viewport';
-            meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-            document.getElementsByTagName('head')[0].appendChild(meta);
+            var meta = document.createElement("meta");
+            meta.name = "viewport";
+            meta.content =
+                "width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes";
+            document.getElementsByTagName("head")[0].appendChild(meta);
             document.querySelector("#unity-container").className = "unity-mobile";
             canvas.className = "unity-mobile";
         } else {
@@ -79,15 +86,18 @@
         script.src = loaderUrl;
         script.onload = () => {
             createUnityInstance(canvas, config, (progress) => {
-                document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-            }).then((unityInstance) => {
-                document.querySelector("#unity-loading-bar").style.display = "none";
-                document.querySelector("#unity-fullscreen-button").onclick = () => {
-                    unityInstance.SetFullscreen(1);
-                };
-            }).catch((message) => {
-                alert(message);
-            });
+                document.querySelector("#unity-progress-bar-full").style.width =
+                    100 * progress + "%";
+            })
+                .then((unityInstance) => {
+                    document.querySelector("#unity-loading-bar").style.display = "none";
+                    document.querySelector("#unity-fullscreen-button").onclick = () => {
+                        unityInstance.SetFullscreen(1);
+                    };
+                })
+                .catch((message) => {
+                    alert(message);
+                });
         };
 
         document.body.appendChild(script);</script>
